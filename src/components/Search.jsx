@@ -6,20 +6,20 @@ function Search(){
         let trainNo=document.getElementById("trainNo").value
         let date=document.getElementById("date").value
         date = date.replaceAll("-", "");
-        const url = `https://indian-railway-irctc.p.rapidapi.com/api/trains/v1/train/status?departure_date=${date}&isH5=true&client=web&deviceIdentifier=Mozilla%2520Firefox-138.0.0.0&train_number=${trainNo}`;
-        const options = {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': '930fbd1d9amshefc38d9360fbcccp1f297ejsnbd5eed21e74c',
-                'x-rapidapi-host': 'indian-railway-irctc.p.rapidapi.com',
-                'Content-Type': 'application/json',
-                'x-rapid-api': 'rapid-api-database'
+        const handleSearch = async () => {
+        try {
+          const response = await fetch(
+            `/api/train?date=${date}&trainNo=${trainNo}`
+          );
+
+          const data = await response.json();
+          showData(data);
+
+        } catch (error) {
+          console.error(error);
         }
-        };
-        fetch(url,options)
-            .then(responses=>responses.json())
-            .then(data=>showData(data))
-            .catch(err=>console.error(err))
+      };
+      handleSearch();
         
     }
     function showData(data) {
